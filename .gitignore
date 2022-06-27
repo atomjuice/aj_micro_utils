@@ -1,0 +1,10 @@
+.pytest_cache
+__pycache__
+.env
+.idea
+venv
+.vscode
+pytest.ini
+dist/
+aj_micro_utils.egg-info/
+build/

@@ -1,0 +1,48 @@
+input StringFilterInput {
+  matches: String
+  eq: String
+  neq: String
+  contains: String
+  icontains: String
+}
+
+input UuidFilterInput {
+  eq: Uuid
+  neq: Uuid
+}
+
+input BoolFilterInput {
+  eq: Boolean
+}
+
+input DateTimeFilterInput {
+  gt: Datetime
+  lt: Datetime
+  gte: Datetime
+  lte: Datetime
+  eq: Datetime
+  neq: Datetime
+}
+
+input IntegerFilterInput {
+  gt: Int
+  lt: Int
+  gte: Int
+  lte: Int
+  eq: Int
+  neq: Int
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+interface Edge {
+  cursor: String
+}
+
+interface Connection {
+  pageInfo: PageInfo!
+}

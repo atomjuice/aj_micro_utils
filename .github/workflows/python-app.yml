@@ -1,0 +1,47 @@
+name: Python application
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_PASSWORD: aj_micro_utils
+          POSTGRES_USER: aj_micro_utils
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - uses: actions/cache@v1
+        id: cache
+        with:
+          path: .cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-test
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install black
+          pip install -r requirements.txt
+      - name: Run Black
+        run: |
+          black aj_micro_utils --check --exclude "/(\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|_build|buck-out|build|dist|migrations)/"
+      - name: Test with pytest
+        env:
+          DATABASE_URL: postgres://aj_micro_utils:aj_micro_utils@127.0.0.1:5432/aj_micro_utils_db
+          DEBUG: True
+          JWT_GATEWAY_SECRET: some_token
+        run: |
+          pytest
