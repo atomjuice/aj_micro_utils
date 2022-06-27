@@ -9,7 +9,6 @@ asyncpg>=0.21.0
 ariadne>=0.12.0
 async_lru>=1.0.2
 aioredis>=1.3.1,<2.0.0
-newrelic>=5.22.1.152
 pytest>=6.2.1
 python-dotenv>=0.15.0
 asynctest>=0.13.0
